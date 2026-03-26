@@ -1,0 +1,7 @@
+{
+  "extends": "@mono/tsconfig/base.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["src"]
+}

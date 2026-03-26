@@ -1,0 +1,9 @@
+{
+  "extends": "@mono/tsconfig/react.json",
+  "compilerOptions": {
+    "jsxImportSource": "@emotion/react",
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  },
+  "include": ["src", "vite.config.ts"]
+}

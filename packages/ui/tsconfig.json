@@ -1,0 +1,8 @@
+{
+  "extends": "@mono/tsconfig/react.json",
+  "compilerOptions": {
+    "jsxImportSource": "@emotion/react",
+    "baseUrl": "."
+  },
+  "include": ["src"]
+}
