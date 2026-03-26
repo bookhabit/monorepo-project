@@ -1,4 +1,4 @@
-import { createHash, timingSafeEqual } from 'crypto';
+import { createHash, timingSafeEqual, randomUUID } from 'crypto';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -94,7 +94,8 @@ export class SessionsService {
   }
 
   private async issueTokens(userId: string, email: string): Promise<TokenPair> {
-    const payload = { sub: userId, email };
+    // jti(JWT ID)로 같은 초에 발급된 토큰도 고유하게 구분 → RTR 재사용 감지 정확도 보장
+    const payload = { sub: userId, email, jti: randomUUID() };
 
     const accessToken = this.jwtService.sign(payload, {
       secret: this.config.getOrThrow<string>('JWT_ACCESS_SECRET'),
