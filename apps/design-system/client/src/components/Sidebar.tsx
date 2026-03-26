@@ -96,6 +96,8 @@ const navGroups = [
       { href: '/layout-components/flex', label: 'Flex' },
       { href: '/layout-components/box', label: 'Box' },
       { href: '/layout-components/grid', label: 'Grid' },
+      { href: '/layout-components/spacing', label: 'Spacing' },
+      { href: '/layout-components/mobile', label: 'MobileLayout' },
     ],
   },
   {
@@ -116,6 +118,7 @@ const navGroups = [
       { href: '/feedback/toast', label: 'Toast' },
       { href: '/feedback/skeleton', label: 'Skeleton' },
       { href: '/feedback/modal', label: 'Modal' },
+      { href: '/feedback/drawer', label: 'Drawer' },
       { href: '/feedback/dialog', label: 'Dialog' },
       { href: '/feedback/bottom-cta', label: 'BottomCTA' },
     ],
