@@ -3,6 +3,7 @@
 
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
+import type { IconProps } from '@mono/ui';
 import {
   // Navigation
   HomeIcon, HistoryIcon, SettingsIcon, ProfileIcon, NotificationIcon, SearchIcon, MenuIcon,
@@ -115,7 +116,7 @@ const colorDotStyle = (color: string, active: boolean) => css`
   transition: border-color 0.15s;
 `;
 
-type IconEntry = { name: string; component: React.ReactElement };
+type IconEntry = { name: string; component: React.ReactElement<IconProps> };
 
 const ICON_GROUPS: { label: string; icons: IconEntry[] }[] = [
   {
@@ -233,7 +234,7 @@ function IconCard({ name, component, size, color }: IconEntry & { size: number; 
 
 export function IconsSection() {
   const [size, setSize] = useState(24);
-  const [color, setColor] = useState(colors.grey700);
+  const [color, setColor] = useState<string>(colors.grey700);
 
   return (
     <div css={pageStyle}>

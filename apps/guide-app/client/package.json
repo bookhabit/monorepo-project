@@ -1,11 +1,11 @@
 {
-  "name": "@mono/design-system-client",
+  "name": "@mono/guide-app-client",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3009",
+    "dev": "next dev --port 3010",
     "build": "next build",
-    "start": "next start --port 3009",
+    "start": "next start --port 3010",
     "lint": "eslint src --max-warnings 0",
     "type-check": "tsc --noEmit"
   },
@@ -13,20 +13,21 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^5.0.0",
     "@mono/shared": "*",
     "@mono/ui": "*",
-    "@tanstack/react-query": "^5.95.2",
-    "@tanstack/react-query-devtools": "^5.95.2",
+    "@tanstack/react-query": "^5.0.0",
+    "@tanstack/react-query-devtools": "^5.0.0",
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-hook-form": "^7.72.0",
-    "zod": "^4.3.6"
+    "react-hook-form": "^7.57.0",
+    "zod": "^3.24.2",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@mono/tsconfig": "*",
-    "@types/node": "^22.15.3",
+    "@types/node": "^22.0.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "typescript": "^5.8.3"

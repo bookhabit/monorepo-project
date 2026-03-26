@@ -1,0 +1,39 @@
+import { ConflictException, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../../prisma/prisma.service';
+import type { CreateUserDto } from './dto/create-user.dto';
+
+const SALT_ROUNDS = 12;
+
+@Injectable()
+export class UsersService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(dto: CreateUserDto) {
+    const exists = await this.prisma.user.findUnique({ where: { email: dto.email } });
+    if (exists) {
+      throw new ConflictException({ code: 'EMAIL_ALREADY_EXISTS', message: '이미 사용 중인 이메일입니다.' });
+    }
+
+    const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
+
+    const user = await this.prisma.user.create({
+      data: { email: dto.email, passwordHash, nickname: dto.nickname },
+      select: { id: true, email: true, nickname: true, createdAt: true },
+    });
+
+    return user;
+  }
+
+  async findById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: { id: true, email: true, nickname: true, position: true, skillLevel: true },
+    });
+  }
+
+  /** 로그인 시 bcrypt 비교용 — 타이밍 공격 방지를 위해 항상 compare 수행 */
+  async findByEmailForAuth(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+}

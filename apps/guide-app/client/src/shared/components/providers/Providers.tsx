@@ -1,21 +1,17 @@
-/** @jsxImportSource @emotion/react */
 'use client';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
-import { ToastProvider } from '@mono/ui';
 import { createQueryClient } from '@mono/shared/query';
 import type { ReactNode } from 'react';
 
-export function AppProviders({ children }: { children: ReactNode }) {
-  // useState로 감싸야 각 컴포넌트 트리마다 독립 인스턴스 보장
-  // (서버 컴포넌트 hydration 안전, 테스트 격리)
+export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => createQueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastProvider>{children}</ToastProvider>
+      {children}
       {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
