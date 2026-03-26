@@ -44,3 +44,6 @@ export type { AlertDialogProps, ConfirmDialogProps } from './components/feedback
 
 // Hooks
 export { useModal } from './hooks';
+
+// Icons
+export * from './icons';

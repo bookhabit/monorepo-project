@@ -4,6 +4,7 @@
 import { css } from '@emotion/react';
 import { useEffect, useRef, useState } from 'react';
 import { colors } from '../../../foundation/colors';
+import { ImageIcon } from '../../../icons';
 import type { SmartImageProps } from './Image.types';
 
 type Status = 'idle' | 'loading' | 'loaded' | 'error';
@@ -75,17 +76,9 @@ const fallbackIconStyle = css`
 function DefaultFallback() {
   return (
     <div css={fallbackStyle}>
-      <svg css={fallbackIconStyle} viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
-        <path
-          d="M3 15L8 10L12 14L16 11L21 15"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <span css={fallbackIconStyle}>
+        <ImageIcon size={32} color={colors.grey300} />
+      </span>
     </div>
   );
 }

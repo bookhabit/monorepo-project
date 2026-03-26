@@ -14,6 +14,12 @@
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
+  "scripts": {
+    "icons:pre": "node scripts/preprocess-svg.cjs",
+    "icons:build": "node scripts/build-icons.cjs",
+    "icons:index": "node scripts/generate-index.cjs",
+    "icons": "yarn icons:pre && yarn icons:build && yarn icons:index"
+  },
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",

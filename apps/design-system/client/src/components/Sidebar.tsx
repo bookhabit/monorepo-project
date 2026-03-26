@@ -88,6 +88,7 @@ const navGroups = [
       { href: '/foundation/colors', label: 'Colors' },
       { href: '/foundation/typography', label: 'Typography' },
       { href: '/foundation/spacing', label: 'Spacing' },
+      { href: '/foundation/icons', label: 'Icons' },
     ],
   },
   {

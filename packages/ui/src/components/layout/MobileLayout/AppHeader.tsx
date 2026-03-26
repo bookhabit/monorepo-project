@@ -4,6 +4,7 @@
 import { css } from '@emotion/react';
 import { colors } from '../../../foundation/colors';
 import { typography } from '../../../foundation/typography';
+import { ChevronLeftIcon } from '../../../icons';
 import type { AppHeaderProps } from './MobileLayout.types';
 
 const headerStyle = css`
@@ -35,18 +36,6 @@ const backButtonStyle = css`
 
   &:hover {
     background-color: ${colors.grey100};
-  }
-
-  /* 왼쪽 화살표 (<) */
-  &::before {
-    content: '';
-    display: block;
-    width: 9px;
-    height: 9px;
-    border-left: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg) translateX(2px);
-    border-radius: 1px;
   }
 `;
 
@@ -85,7 +74,9 @@ export function AppHeader({ title, onBack, rightSlot }: AppHeaderProps) {
           onClick={onBack}
           aria-label="뒤로가기"
           type="button"
-        />
+        >
+          <ChevronLeftIcon size={22} />
+        </button>
       ) : (
         <div css={placeholderStyle} />
       )}

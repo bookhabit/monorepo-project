@@ -8,6 +8,10 @@ import {
   AppHeader,
   BottomTabBar,
   SafeAreaWrapper,
+  HomeIcon,
+  HistoryIcon,
+  SettingsIcon,
+  MoreVerticalIcon,
   colors,
   typography,
   spacing,
@@ -60,46 +64,9 @@ const tabContentBodyStyle = css`
 `;
 
 const DEMO_TABS: TabItem[] = [
-  {
-    key: 'home',
-    label: '홈',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
-    ),
-  },
-  {
-    key: 'history',
-    label: '내역',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.8" fill="none" />
-        <path d="M7 9H17M7 13H13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    key: 'settings',
-    label: '설정',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" fill="none" />
-        <path
-          d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
-  },
+  { key: 'home',     label: '홈',  icon: <HomeIcon /> },
+  { key: 'history',  label: '내역', icon: <HistoryIcon /> },
+  { key: 'settings', label: '설정', icon: <SettingsIcon /> },
 ];
 
 const TAB_LABELS: Record<string, string> = {
@@ -119,25 +86,11 @@ function MobilePreview() {
           ...(activeTab !== 'home' && { onBack: () => setActiveTab('home') }),
           rightSlot: (
             <button
-              style={{
-                border: 'none',
-                background: 'none',
-                cursor: 'pointer',
-                padding: '8px',
-                color: colors.grey600,
-              }}
+              style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '8px', color: colors.grey600 }}
               type="button"
               aria-label="설정"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" fill="none" />
-                <path
-                  d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <SettingsIcon size={20} />
             </button>
           ),
         }}
@@ -167,11 +120,7 @@ function AppHeaderPreview() {
             style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '8px', color: colors.grey600 }}
             type="button"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="7" r="1.5" fill="currentColor" />
-              <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-              <circle cx="12" cy="17" r="1.5" fill="currentColor" />
-            </svg>
+            <MoreVerticalIcon size={20} />
           </button>
         }
       />
