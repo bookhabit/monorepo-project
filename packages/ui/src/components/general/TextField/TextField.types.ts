@@ -1,12 +1,12 @@
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  title?: string;
-  description?: string;
-  errorMessage?: string;
-  clearButton?: boolean;
-  fullWidth?: boolean;
-  onClear?: () => void;
+  title?: string | undefined;
+  description?: string | undefined;
+  errorMessage?: string | undefined;
+  clearButton?: boolean | undefined;
+  fullWidth?: boolean | undefined;
+  onClear?: (() => void) | undefined;
 };
 
 export type SplitTextFieldProps = {
