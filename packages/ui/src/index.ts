@@ -28,6 +28,8 @@ export { TextField, SplitTextField, TextArea } from './components/general/TextFi
 export type { TextFieldProps, SplitTextFieldProps, TextAreaProps } from './components/general/TextField';
 export { ListRow } from './components/general/ListRow';
 export type { ListRowProps } from './components/general/ListRow';
+export { SmartImage } from './components/general/Image';
+export type { SmartImageProps, ImageSource } from './components/general/Image';
 
 // Feedback
 export { Skeleton } from './components/feedback/Skeleton';

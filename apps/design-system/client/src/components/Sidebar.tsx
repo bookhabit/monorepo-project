@@ -110,6 +110,14 @@ const navGroups = [
       { href: '/general/switch', label: 'Switch' },
       { href: '/general/textfield', label: 'TextField' },
       { href: '/general/listrow', label: 'ListRow' },
+      { href: '/general/image', label: 'SmartImage' },
+    ],
+  },
+  {
+    label: 'Utils',
+    items: [
+      { href: '/utils/formatters', label: 'Formatters' },
+      { href: '/utils/validators', label: 'Validators' },
     ],
   },
   {

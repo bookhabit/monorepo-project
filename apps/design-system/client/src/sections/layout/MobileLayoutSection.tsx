@@ -8,7 +8,6 @@ import {
   AppHeader,
   BottomTabBar,
   SafeAreaWrapper,
-  Button,
   colors,
   typography,
   spacing,
@@ -117,7 +116,7 @@ function MobilePreview() {
       <MobileLayout
         header={{
           title: TAB_LABELS[activeTab] ?? '홈',
-          onBack: activeTab !== 'home' ? () => setActiveTab('home') : undefined,
+          ...(activeTab !== 'home' && { onBack: () => setActiveTab('home') }),
           rightSlot: (
             <button
               style={{
