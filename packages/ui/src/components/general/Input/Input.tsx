@@ -11,17 +11,17 @@ const wrapperStyle = css`
 `;
 
 const labelStyle = css`
-  ${typography.Body2Bold};
+  ${typography.body2Bold};
   color: ${colors.grey700};
 `;
 
 const inputStyle = css`
-  ${typography.Body1};
+  ${typography.body1};
   width: 100%;
   padding: 14px 16px;
   border: 1.5px solid ${colors.grey200};
   border-radius: 10px;
-  background-color: ${colors.surface};
+  background-color: ${colors.background};
   color: ${colors.grey900};
   outline: none;
   transition: border-color 0.15s ease;
@@ -49,12 +49,12 @@ const errorInputStyle = css`
 `;
 
 const errorMessageStyle = css`
-  ${typography.Caption};
+  ${typography.caption};
   color: ${colors.error};
 `;
 
 const hintStyle = css`
-  ${typography.Caption};
+  ${typography.caption};
   color: ${colors.grey500};
 `;
 

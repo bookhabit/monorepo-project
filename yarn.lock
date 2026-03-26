@@ -1195,6 +1195,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@mono/design-system-client@workspace:apps/design-system/client":
+  version: 0.0.0-use.local
+  resolution: "@mono/design-system-client@workspace:apps/design-system/client"
+  dependencies:
+    "@emotion/cache": "npm:^11.14.0"
+    "@emotion/react": "npm:^11.14.0"
+    "@emotion/styled": "npm:^11.14.0"
+    "@mono/shared": "npm:*"
+    "@mono/tsconfig": "npm:*"
+    "@mono/ui": "npm:*"
+    "@types/node": "npm:^22.15.3"
+    "@types/react": "npm:^19.1.2"
+    "@types/react-dom": "npm:^19.1.2"
+    next: "npm:^15.3.1"
+    react: "npm:^19.1.0"
+    react-dom: "npm:^19.1.0"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@mono/fds-client@workspace:apps/fds/client":
   version: 0.0.0-use.local
   resolution: "@mono/fds-client@workspace:apps/fds/client"

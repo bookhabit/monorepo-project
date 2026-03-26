@@ -31,14 +31,14 @@ const containerStyle = css`
 `;
 
 const toastItemStyle = (type: ToastType) => css`
-  ${typography.Body2Bold};
+  ${typography.body2Bold};
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 14px 16px;
   border-radius: 12px;
   background-color: ${colors.grey900};
-  color: ${colors.grey0};
+  color: #ffffff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   animation: ${slideIn} 0.25s ease;
   pointer-events: auto;

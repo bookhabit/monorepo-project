@@ -24,7 +24,7 @@ const baseStyle = css`
 const variantStyles = {
   primary: css`
     background-color: ${colors.blue500};
-    color: ${colors.grey0};
+    color: #ffffff;
     &:hover:not(:disabled) {
       background-color: ${colors.blue600};
     }
@@ -51,7 +51,7 @@ const variantStyles = {
   `,
   danger: css`
     background-color: ${colors.error};
-    color: ${colors.grey0};
+    color: #ffffff;
     &:hover:not(:disabled) {
       opacity: 0.9;
     }
@@ -60,17 +60,17 @@ const variantStyles = {
 
 const sizeStyles = {
   small: css`
-    ${typography.Body2Bold};
+    ${typography.body2Bold};
     padding: 8px 14px;
     height: 36px;
   `,
   medium: css`
-    ${typography.Body1Bold};
+    ${typography.body1Bold};
     padding: 12px 20px;
     height: 48px;
   `,
   large: css`
-    ${typography.Body1Bold};
+    ${typography.body1Bold};
     padding: 16px 28px;
     height: 56px;
   `,
