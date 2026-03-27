@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { JoinRequestStatus } from '@prisma/client';
 import { Prisma } from '@prisma/client';
-import { ErrorCode } from '@mono/shared/api';
+import { ErrorCode } from '../../common/constants/error-codes';
 import { PrismaService } from '../../prisma/prisma.service';
 import type { CreateTeamDto } from './dto/create-team.dto';
 import type { SendJoinRequestDto } from './dto/send-join-request.dto';

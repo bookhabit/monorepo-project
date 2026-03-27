@@ -2,7 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isApiError, ErrorCode } from '@mono/shared/api';
+import { isApiError } from '@mono/shared/api';
+import { ErrorCode } from '@/shared/constants/error-codes';
 import { useToast } from '@mono/ui';
 import { createTeamSchema, type CreateTeamInput } from '../schemas/team.schema';
 import { useCreateTeamMutation } from './queries/useTeamQuery';

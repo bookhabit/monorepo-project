@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { ErrorCode } from '@mono/shared/api';
+import { ErrorCode } from '../../common/constants/error-codes';
 import { PrismaService } from '../../prisma/prisma.service';
 import type { CreateUserDto } from './dto/create-user.dto';
 import type { UpdateProfileDto } from './dto/update-profile.dto';

@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { MatchStatus } from '@prisma/client';
-import { ErrorCode } from '@mono/shared/api';
+import { ErrorCode } from '../../common/constants/error-codes';
 import { PrismaService } from '../../prisma/prisma.service';
 import type { CreateMatchDto } from './dto/create-match.dto';
 

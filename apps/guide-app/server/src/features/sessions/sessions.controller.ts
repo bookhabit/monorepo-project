@@ -7,7 +7,7 @@ import type { Request, Response } from 'express';
 import { Public } from '../../common/decorators/public.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import type { JwtPayload } from '../../common/guards/jwt-auth.guard';
-import { ErrorCode } from '@mono/shared/api';
+import { ErrorCode } from '../../common/constants/error-codes';
 import { SessionsService } from './sessions.service';
 import { LoginDto } from './dto/login.dto';
 

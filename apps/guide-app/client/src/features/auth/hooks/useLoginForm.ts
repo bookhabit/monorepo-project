@@ -1,7 +1,8 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isApiError, getErrorMessage, ErrorCode } from '@mono/shared/api';
+import { isApiError, getErrorMessage } from '@mono/shared/api';
+import { ErrorCode } from '@/shared/constants/error-codes';
 import { loginSchema, type LoginInput } from '../schemas/auth.schema';
 import { useLoginMutation } from './queries/useAuthMutation';
 import { useAuthStore } from '../stores/useAuthStore';
