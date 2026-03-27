@@ -4,6 +4,8 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './features/users/users.module';
 import { SessionsModule } from './features/sessions/sessions.module';
+import { TeamsModule } from './features/teams/teams.module';
+import { MatchesModule } from './features/matches/matches.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
@@ -14,6 +16,8 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
     PrismaModule,
     UsersModule,
     SessionsModule,
+    TeamsModule,
+    MatchesModule,
   ],
   providers: [
     // Guard 순서 보장: JWT 검증 → Roles 검사

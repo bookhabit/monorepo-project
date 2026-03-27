@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Patch, Post } from '@nestjs/common';
 import { Public } from '../../common/decorators/public.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import type { JwtPayload } from '../../common/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Controller('api/v1/users')
 export class UsersController {
@@ -21,5 +22,11 @@ export class UsersController {
   @Get('me')
   async getMe(@CurrentUser() user: JwtPayload) {
     return this.usersService.findById(user.sub);
+  }
+
+  /** 프로필 수정 — 인증 필요 */
+  @Patch('me')
+  async updateProfile(@CurrentUser() user: JwtPayload, @Body() dto: UpdateProfileDto) {
+    return this.usersService.updateProfile(user.sub, dto);
   }
 }

@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
 import type { CreateUserDto } from './dto/create-user.dto';
+import type { UpdateProfileDto } from './dto/update-profile.dto';
 
 const SALT_ROUNDS = 12;
 
@@ -28,6 +29,14 @@ export class UsersService {
   async findById(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
+      select: { id: true, email: true, nickname: true, position: true, skillLevel: true },
+    });
+  }
+
+  async updateProfile(id: string, dto: UpdateProfileDto) {
+    return this.prisma.user.update({
+      where: { id },
+      data: dto,
       select: { id: true, email: true, nickname: true, position: true, skillLevel: true },
     });
   }
