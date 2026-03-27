@@ -16,6 +16,7 @@ type SignupBody = Omit<SignupInput, 'confirmPassword'>;
 
 export const authService = {
   login: async (data: LoginInput): Promise<TokenResponse> => {
+    console.log('post요청')
     const res = await http.auth.post('/api/v1/sessions', data);
     return tokenResponseSchema.parse(res);
   },

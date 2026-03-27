@@ -40,5 +40,15 @@ export const userSchema = z.object({
   skillLevel: z.number().int().min(1).max(5).optional(),
 });
 
+export const updateProfileSchema = z.object({
+  nickname: z
+    .string()
+    .min(2, '닉네임은 최소 2자 이상이어야 합니다.')
+    .max(20, '닉네임은 최대 20자입니다.')
+    .optional(),
+  position: z.enum(['FW', 'MF', 'DF', 'GK']).optional(),
+  skillLevel: z.number().int().min(1).max(5).optional(),
+});
+
 export type TokenResponse = z.infer<typeof tokenResponseSchema>; // { accessToken: string }
 export type User = z.infer<typeof userSchema>;
