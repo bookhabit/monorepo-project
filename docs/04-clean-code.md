@@ -74,3 +74,28 @@ function LoanRow({ application }: Props) {
 - 매직 넘버/문자열 → 상수 파일
 - 반복 UI → 컴포넌트 추출
 - 비즈니스 규칙 → 훅/유틸 추출 (컴포넌트에서 제거)
+
+
+# 한 눈에 읽기 쉬운 코드
+
+/ ✅ 변경 전 (동작은 하지만 읽기 힘듦)
+if (!teams || teams.length === 0) {
+  return <NoTeamView />;
+}
+
+// ✅ 변경 후 (의도가 한 번에 읽힘)
+const isEmptyTeams = !teams || teams.length === 0;
+
+if (isEmptyTeams) {
+  return <NoTeamView />;
+}
+1. 설명용 변수 (Explaining Variable)
+가장 직접적인 표현입니다. 복잡한 조건문이나 계산식을 한 번에 이해하기 어려울 때, 그 결과를 의미 있는 이름의 변수에 할당하여 코드를 설명하는 방식입니다.
+
+"조건식이 복잡해서 설명용 변수 isEmptyTeams를 도입해 가독성을 높였습니다."
+
+2. 의미 있는 이름 (Meaningful Name)
+클린 코드(Clean Code)의 저자 로버트 C. 마틴이 강조한 개념입니다. 단순히 데이터를 담는 그릇이 아니라, **"이 변수가 왜 존재하는지"**를 이름으로 나타내는 것을 말합니다.
+
+3. 로직의 추상화 (Abstraction of Logic)
+!teams || teams.length === 0이라는 **'어떻게(How)'**에 해당하는 세부 구현을 숨기고, isEmptyTeams라는 **'무엇(What)'**에 해당하는 개념으로 끌어올리는 것을 뜻합니다.
