@@ -45,13 +45,14 @@ export function useJoinRequestsQuery(teamId: string) {
 }
 
 /** 팀 생성 */
-export function useCreateTeamMutation() {
+export function useCreateTeamMutation(onSuccess?: () => void) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: teamService.createTeam,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: teamQueryKeys.all });
       queryClient.invalidateQueries({ queryKey: teamQueryKeys.myTeam() });
+      onSuccess?.();
     },
   });
 }

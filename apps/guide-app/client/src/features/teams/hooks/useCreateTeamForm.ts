@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isApiError } from '@mono/shared/api';
+import { useToast } from '@mono/ui';
 import { createTeamSchema, type CreateTeamInput } from '../schemas/team.schema';
 import { useCreateTeamMutation } from './queries/useTeamQuery';
 
@@ -12,7 +13,13 @@ export function useCreateTeamForm(onSuccess: () => void) {
     defaultValues: { name: '', description: '', logoUrl: '' },
   });
 
-  const { mutate, isPending } = useCreateTeamMutation();
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useCreateTeamMutation(() => {
+    toast.success('팀이 생성되었습니다.');
+    form.reset();
+    onSuccess();
+  });
 
   const handleSubmit = form.handleSubmit((data) => {
     const payload = {
@@ -21,13 +28,11 @@ export function useCreateTeamForm(onSuccess: () => void) {
       description: data.description || undefined,
     };
     mutate(payload, {
-      onSuccess: () => {
-        form.reset();
-        onSuccess();
-      },
       onError: (error) => {
         if (isApiError(error) && error.code === 'NAME_ALREADY_EXISTS') {
           form.setError('name', { message: '이미 사용 중인 팀 이름입니다.' });
+        } else if (isApiError(error)) {
+          toast.error(error.message);
         }
       },
     });

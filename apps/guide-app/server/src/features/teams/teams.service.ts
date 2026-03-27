@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { JoinRequestStatus } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import type { CreateTeamDto } from './dto/create-team.dto';
 import type { SendJoinRequestDto } from './dto/send-join-request.dto';
@@ -29,10 +30,19 @@ export class TeamsService {
 
   async createTeam(captainId: string, dto: CreateTeamDto) {
     return this.prisma.$transaction(async (tx) => {
-      const team = await tx.team.create({
-        data: { ...dto, captainId },
-        select: TEAM_SELECT,
-      });
+      let team;
+      try {
+        team = await tx.team.create({
+          data: { ...dto, captainId },
+          select: TEAM_SELECT,
+        });
+      } catch (e) {
+        const isUniqueViolation = e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002';
+        if (isUniqueViolation) {
+          throw new ConflictException({ code: 'NAME_ALREADY_EXISTS', message: '이미 사용 중인 팀 이름입니다.' });
+        }
+        throw e;
+      }
 
       // 캡틴을 CAPTAIN 역할로 팀원 등록
       await tx.teamMember.create({
