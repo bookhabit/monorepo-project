@@ -96,6 +96,8 @@ export function Checkbox({ label, indeterminate = false, checked, id, ...rest }:
   }, [indeterminate]);
 
   const isChecked = checked ?? false;
+  const hasLabel = label !== undefined;
+  const shouldShowCheckedStyle = !indeterminate && isChecked;
 
   return (
     <label css={wrapperStyle} htmlFor={id}>
@@ -110,11 +112,11 @@ export function Checkbox({ label, indeterminate = false, checked, id, ...rest }:
       <span
         css={[
           customBoxStyle,
-          indeterminate ? indeterminateBoxStyle : isChecked && checkedBoxStyle,
+          indeterminate ? indeterminateBoxStyle : shouldShowCheckedStyle && checkedBoxStyle,
         ]}
         aria-hidden="true"
       />
-      {label !== undefined && <span css={labelTextStyle}>{label}</span>}
+      {hasLabel && <span css={labelTextStyle}>{label}</span>}
     </label>
   );
 }

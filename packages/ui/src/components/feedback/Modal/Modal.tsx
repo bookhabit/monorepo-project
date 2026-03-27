@@ -121,17 +121,23 @@ export function Modal({ isOpen, onClose, title, children, width = '480px' }: Mod
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!mounted || !isOpen) return null;
+  const shouldRender = mounted && isOpen;
+  const hasTitle = title !== undefined;
+
+  if (!shouldRender) return null;
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const isBackdropClick = e.target === e.currentTarget;
+    if (isBackdropClick) onClose();
+  };
 
   return createPortal(
     <div
       css={backdropStyle}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
-      aria-labelledby={title ? 'modal-title' : undefined}
+      aria-labelledby={hasTitle ? 'modal-title' : undefined}
     >
       <div
         css={[
@@ -143,7 +149,7 @@ export function Modal({ isOpen, onClose, title, children, width = '480px' }: Mod
         ]}
         onClick={(e) => e.stopPropagation()}
       >
-        {title !== undefined && (
+        {hasTitle && (
           <div css={headerStyle}>
             <h2 id="modal-title" css={titleStyle}>
               {title}

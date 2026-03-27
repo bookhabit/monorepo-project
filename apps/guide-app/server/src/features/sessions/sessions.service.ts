@@ -68,7 +68,8 @@ export class SessionsService {
     }
 
     const session = await this.prisma.session.findUnique({ where: { userId: payload.sub } });
-    if (!session) {
+    const sessionExists = session !== null;
+    if (!sessionExists) {
       throw new UnauthorizedException({
         code: 'SESSION_NOT_FOUND',
         message: '세션이 만료되었습니다. 다시 로그인해주세요.',
@@ -78,7 +79,9 @@ export class SessionsService {
     const incomingHash = hashToken(refreshToken);
 
     // Refresh Token Rotation: 해시 불일치 = 재사용 감지 → 세션 강제 삭제
-    if (!safeCompare(incomingHash, session.refreshTokenHash)) {
+    const tokenHashesMatch = safeCompare(incomingHash, session.refreshTokenHash);
+    const isTokenReused = !tokenHashesMatch;
+    if (isTokenReused) {
       await this.prisma.session.delete({ where: { userId: payload.sub } });
       throw new UnauthorizedException({
         code: 'TOKEN_REUSE_DETECTED',

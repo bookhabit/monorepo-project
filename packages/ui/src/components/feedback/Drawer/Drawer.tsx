@@ -128,7 +128,10 @@ export function Drawer({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!mounted || !isOpen) return null;
+  const shouldRender = mounted && isOpen;
+  const hasTitle = title !== undefined;
+
+  if (!shouldRender) return null;
 
   return createPortal(
     <>
@@ -137,12 +140,12 @@ export function Drawer({
         css={sheetStyle(maxHeight)}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? 'drawer-title' : undefined}
+        aria-labelledby={hasTitle ? 'drawer-title' : undefined}
       >
         <div css={handleStyle}>
           <div css={handleBarStyle} />
         </div>
-        {title !== undefined && (
+        {hasTitle && (
           <div css={headerStyle}>
             <h2 id="drawer-title" css={titleStyle}>
               {title}

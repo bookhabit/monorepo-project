@@ -92,6 +92,9 @@ export function Select({
   ...rest
 }: SelectProps) {
   const isPlaceholderShown = value === '' || value === undefined;
+  const hasLabel = label !== undefined;
+  const hasError = errorMessage !== undefined;
+  const hasPlaceholder = placeholder !== undefined;
 
   return (
     <div
@@ -103,7 +106,7 @@ export function Select({
           `,
       ]}
     >
-      {label !== undefined && (
+      {hasLabel && (
         <label css={labelStyle} htmlFor={rest.id}>
           {label}
         </label>
@@ -112,13 +115,13 @@ export function Select({
         <select
           css={[
             selectStyle,
-            errorMessage !== undefined && errorSelectStyle,
+            hasError && errorSelectStyle,
             isPlaceholderShown && placeholderStyle,
           ]}
           value={value}
           {...rest}
         >
-          {placeholder !== undefined && (
+          {hasPlaceholder && (
             <option value="" disabled>
               {placeholder}
             </option>
@@ -131,7 +134,7 @@ export function Select({
         </select>
         <span css={chevronStyle} aria-hidden="true" />
       </div>
-      {errorMessage !== undefined && <span css={errorMessageStyle}>{errorMessage}</span>}
+      {hasError && <span css={errorMessageStyle}>{errorMessage}</span>}
     </div>
   );
 }

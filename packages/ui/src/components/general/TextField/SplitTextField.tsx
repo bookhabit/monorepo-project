@@ -65,6 +65,7 @@ export function SplitTextField({
 }: SplitTextFieldProps) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const chars = Array.from({ length }, (_, i) => value[i] ?? '');
+  const hasError = errorMessage !== undefined;
 
   useEffect(() => {
     if (autoFocus && inputRefs.current[0]) {
@@ -87,20 +88,27 @@ export function SplitTextField({
   };
 
   const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      if (chars[index] !== '') {
+    const isBackspace = e.key === 'Backspace';
+    const isArrowLeft = e.key === 'ArrowLeft';
+    const isArrowRight = e.key === 'ArrowRight';
+    const hasCharAtIndex = chars[index] !== '';
+    const isNotFirstCell = index > 0;
+    const isNotLastCell = index < length - 1;
+
+    if (isBackspace) {
+      if (hasCharAtIndex) {
         const newChars = [...chars];
         newChars[index] = '';
         onChange?.(newChars.join(''));
-      } else if (index > 0) {
+      } else if (isNotFirstCell) {
         const newChars = [...chars];
         newChars[index - 1] = '';
         onChange?.(newChars.join(''));
         inputRefs.current[index - 1]?.focus();
       }
-    } else if (e.key === 'ArrowLeft' && index > 0) {
+    } else if (isArrowLeft && isNotFirstCell) {
       inputRefs.current[index - 1]?.focus();
-    } else if (e.key === 'ArrowRight' && index < length - 1) {
+    } else if (isArrowRight && isNotLastCell) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -131,7 +139,7 @@ export function SplitTextField({
             maxLength={1}
             value={char}
             disabled={disabled}
-            css={[cellStyle, errorMessage !== undefined && errorCellStyle]}
+            css={[cellStyle, hasError && errorCellStyle]}
             onChange={(e) => handleChange(index, e)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
@@ -140,7 +148,7 @@ export function SplitTextField({
           />
         ))}
       </div>
-      {errorMessage !== undefined && <span css={errorMessageStyle}>{errorMessage}</span>}
+      {hasError && <span css={errorMessageStyle}>{errorMessage}</span>}
     </div>
   );
 }

@@ -115,7 +115,11 @@ export function TextArea({
     }
   };
 
-  const hasFooter = description !== undefined || errorMessage !== undefined || maxLength !== undefined;
+  const hasTitle = title !== undefined;
+  const hasError = errorMessage !== undefined;
+  const hasDescription = description !== undefined;
+  const hasMaxLength = maxLength !== undefined;
+  const hasFooter = hasDescription || hasError || hasMaxLength;
 
   return (
     <div
@@ -127,13 +131,13 @@ export function TextArea({
           `,
       ]}
     >
-      {title !== undefined && <label css={titleStyle}>{title}</label>}
+      {hasTitle && <label css={titleStyle}>{title}</label>}
       <textarea
         ref={textareaRef}
         css={[
           textareaStyle,
           autoResize && autoResizeStyle,
-          errorMessage !== undefined && errorTextareaStyle,
+          hasError && errorTextareaStyle,
         ]}
         value={value}
         maxLength={maxLength}
@@ -142,14 +146,14 @@ export function TextArea({
       />
       {hasFooter && (
         <div css={footerStyle}>
-          {errorMessage !== undefined ? (
+          {hasError ? (
             <span css={errorMessageStyle}>{errorMessage}</span>
-          ) : description !== undefined ? (
+          ) : hasDescription ? (
             <span css={descriptionStyle}>{description}</span>
           ) : (
             <span />
           )}
-          {maxLength !== undefined && (
+          {hasMaxLength && (
             <span css={lengthCounterStyle}>
               {currentLength}/{maxLength}
             </span>

@@ -55,6 +55,9 @@ export function BottomTabBar({ tabs, activeKey, onChange }: BottomTabBarProps) {
     <nav css={navStyle} aria-label="탭 네비게이션">
       {tabs.map((tab) => {
         const isActive = tab.key === activeKey;
+        const hasActiveIcon = tab.activeIcon !== undefined;
+        const displayIcon = isActive && hasActiveIcon ? tab.activeIcon : tab.icon;
+
         return (
           <button
             key={tab.key}
@@ -64,7 +67,7 @@ export function BottomTabBar({ tabs, activeKey, onChange }: BottomTabBarProps) {
             type="button"
           >
             <span css={iconStyle}>
-              {isActive && tab.activeIcon ? tab.activeIcon : tab.icon}
+              {displayIcon}
             </span>
             <span css={labelStyle}>{tab.label}</span>
           </button>

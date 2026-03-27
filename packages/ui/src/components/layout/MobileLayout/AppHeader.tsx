@@ -66,9 +66,13 @@ const placeholderStyle = css`
 `;
 
 export function AppHeader({ title, onBack, rightSlot }: AppHeaderProps) {
+  const hasBackButton = onBack !== undefined;
+  const hasTitle = title !== undefined;
+  const hasRightSlot = rightSlot !== undefined;
+
   return (
     <header css={headerStyle}>
-      {onBack ? (
+      {hasBackButton ? (
         <button
           css={backButtonStyle}
           onClick={onBack}
@@ -81,9 +85,9 @@ export function AppHeader({ title, onBack, rightSlot }: AppHeaderProps) {
         <div css={placeholderStyle} />
       )}
 
-      {title && <h1 css={titleStyle}>{title}</h1>}
+      {hasTitle && <h1 css={titleStyle}>{title}</h1>}
 
-      {rightSlot ? (
+      {hasRightSlot ? (
         <div css={rightSlotStyle}>{rightSlot}</div>
       ) : (
         <div css={placeholderStyle} />

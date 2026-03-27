@@ -59,6 +59,10 @@ const hintStyle = css`
 `;
 
 export function Input({ label, errorMessage, hint, fullWidth = true, ...rest }: InputProps) {
+  const hasLabel = label !== undefined;
+  const hasError = errorMessage !== undefined;
+  const shouldShowHint = !hasError && hint !== undefined;
+
   return (
     <div
       css={[
@@ -69,14 +73,14 @@ export function Input({ label, errorMessage, hint, fullWidth = true, ...rest }: 
           `,
       ]}
     >
-      {label !== undefined && (
+      {hasLabel && (
         <label css={labelStyle} htmlFor={rest.id}>
           {label}
         </label>
       )}
-      <input css={[inputStyle, errorMessage !== undefined && errorInputStyle]} {...rest} />
-      {errorMessage !== undefined && <span css={errorMessageStyle}>{errorMessage}</span>}
-      {errorMessage === undefined && hint !== undefined && <span css={hintStyle}>{hint}</span>}
+      <input css={[inputStyle, hasError && errorInputStyle]} {...rest} />
+      {hasError && <span css={errorMessageStyle}>{errorMessage}</span>}
+      {shouldShowHint && <span css={hintStyle}>{hint}</span>}
     </div>
   );
 }

@@ -117,7 +117,8 @@ export class TeamsService {
       where: { teamId_userId: { teamId, userId } },
     });
     if (existing) {
-      if (existing.status === JoinRequestStatus.PENDING) {
+      const isPendingRequest = existing.status === JoinRequestStatus.PENDING;
+      if (isPendingRequest) {
         throw new ConflictException({ code: 'JOIN_REQUEST_ALREADY_SENT', message: '이미 가입 신청 중입니다.' });
       }
       // REJECTED된 경우 재신청 허용 (기존 레코드 업데이트)
@@ -139,7 +140,8 @@ export class TeamsService {
   async findJoinRequests(teamId: string, captainId: string) {
     const team = await this.prisma.team.findUnique({ where: { id: teamId } });
     if (!team) throw new NotFoundException({ code: 'TEAM_NOT_FOUND', message: '팀을 찾을 수 없습니다.' });
-    if (team.captainId !== captainId) throw new ForbiddenException({ code: 'NOT_CAPTAIN', message: '캡틴만 조회할 수 있습니다.' });
+    const isTeamCaptain = team.captainId === captainId;
+    if (!isTeamCaptain) throw new ForbiddenException({ code: 'NOT_CAPTAIN', message: '캡틴만 조회할 수 있습니다.' });
 
     return this.prisma.teamJoinRequest.findMany({
       where: { teamId, status: JoinRequestStatus.PENDING },
@@ -159,12 +161,15 @@ export class TeamsService {
   async respondJoinRequest(teamId: string, requestId: string, captainId: string, dto: RespondJoinRequestDto) {
     const team = await this.prisma.team.findUnique({ where: { id: teamId } });
     if (!team) throw new NotFoundException({ code: 'TEAM_NOT_FOUND', message: '팀을 찾을 수 없습니다.' });
-    if (team.captainId !== captainId) throw new ForbiddenException({ code: 'NOT_CAPTAIN', message: '캡틴만 응답할 수 있습니다.' });
+    const isTeamCaptain = team.captainId === captainId;
+    if (!isTeamCaptain) throw new ForbiddenException({ code: 'NOT_CAPTAIN', message: '캡틴만 응답할 수 있습니다.' });
 
     const request = await this.prisma.teamJoinRequest.findUnique({ where: { id: requestId } });
-    if (!request || request.teamId !== teamId)
+    const isValidRequest = request !== null && request.teamId === teamId;
+    if (!isValidRequest)
       throw new NotFoundException({ code: 'JOIN_REQUEST_NOT_FOUND', message: '가입 신청을 찾을 수 없습니다.' });
-    if (request.status !== JoinRequestStatus.PENDING)
+    const isPendingRequest = request.status === JoinRequestStatus.PENDING;
+    if (!isPendingRequest)
       throw new BadRequestException({ code: 'JOIN_REQUEST_ALREADY_PROCESSED', message: '이미 처리된 신청입니다.' });
 
     return this.prisma.$transaction(async (tx) => {
@@ -189,7 +194,8 @@ export class TeamsService {
   async leaveTeam(teamId: string, userId: string) {
     const team = await this.prisma.team.findUnique({ where: { id: teamId } });
     if (!team) throw new NotFoundException({ code: 'TEAM_NOT_FOUND', message: '팀을 찾을 수 없습니다.' });
-    if (team.captainId === userId)
+    const isTeamCaptain = team.captainId === userId;
+    if (isTeamCaptain)
       throw new BadRequestException({ code: 'CAPTAIN_CANNOT_LEAVE', message: '캡틴은 팀을 탈퇴할 수 없습니다.' });
 
     const member = await this.prisma.teamMember.findUnique({
