@@ -4,8 +4,11 @@ import { create } from 'zustand';
 
 interface AuthState {
   accessToken: string | null;
+  /** silent refresh 완료 여부 — false 동안 protected 쿼리는 enabled: false */
+  authReady: boolean;
   setAccessToken: (accessToken: string) => void;
   clearAuth: () => void;
+  setAuthReady: () => void;
 }
 
 /**
@@ -20,6 +23,8 @@ interface AuthState {
  */
 export const useAuthStore = create<AuthState>()((set) => ({
   accessToken: null,
+  authReady: false,
   setAccessToken: (accessToken) => set({ accessToken }),
-  clearAuth: () => set({ accessToken: null }),
+  clearAuth: () => set({ accessToken: null, authReady: false }),
+  setAuthReady: () => set({ authReady: true }),
 }));

@@ -19,10 +19,14 @@ export function AuthInitializer() {
     if (initialized.current) return;
     initialized.current = true;
 
+    const setAuthReady = useAuthStore.getState().setAuthReady;
+
     authService.refresh().then(({ accessToken }) => {
       setAccessToken(accessToken);
     }).catch(() => {
       // RT 없거나 만료 → 무시 (Middleware가 보호 경로 차단)
+    }).finally(() => {
+      setAuthReady();
     });
   }, [setAccessToken]);
 
