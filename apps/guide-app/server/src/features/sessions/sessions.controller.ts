@@ -7,6 +7,7 @@ import type { Request, Response } from 'express';
 import { Public } from '../../common/decorators/public.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import type { JwtPayload } from '../../common/guards/jwt-auth.guard';
+import { ErrorCode } from '@mono/shared/api';
 import { SessionsService } from './sessions.service';
 import { LoginDto } from './dto/login.dto';
 
@@ -59,7 +60,7 @@ export class SessionsController {
 
     if (!refreshToken) {
       throw new UnauthorizedException({
-        code: 'MISSING_REFRESH_TOKEN',
+        code: ErrorCode.MISSING_REFRESH_TOKEN,
         message: '리프레시 토큰이 없습니다.',
       });
     }

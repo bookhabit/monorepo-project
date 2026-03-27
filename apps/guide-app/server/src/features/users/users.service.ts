@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { ErrorCode } from '@mono/shared/api';
 import { PrismaService } from '../../prisma/prisma.service';
 import type { CreateUserDto } from './dto/create-user.dto';
 import type { UpdateProfileDto } from './dto/update-profile.dto';
@@ -13,7 +14,7 @@ export class UsersService {
   async create(dto: CreateUserDto) {
     const exists = await this.prisma.user.findUnique({ where: { email: dto.email } });
     if (exists) {
-      throw new ConflictException({ code: 'EMAIL_ALREADY_EXISTS', message: '이미 사용 중인 이메일입니다.' });
+      throw new ConflictException({ code: ErrorCode.EMAIL_ALREADY_EXISTS, message: '이미 사용 중인 이메일입니다.' });
     }
 
     const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);

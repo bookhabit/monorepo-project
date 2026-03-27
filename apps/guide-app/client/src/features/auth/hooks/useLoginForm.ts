@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isApiError, getErrorMessage } from '@mono/shared/api';
+import { isApiError, getErrorMessage, ErrorCode } from '@mono/shared/api';
 import { loginSchema, type LoginInput } from '../schemas/auth.schema';
 import { useLoginMutation } from './queries/useAuthMutation';
 import { useAuthStore } from '../stores/useAuthStore';
@@ -25,7 +25,7 @@ export function useLoginForm() {
         router.replace('/dashboard');
       },
       onError: (error) => {
-        if (isApiError(error) && error.code === 'INVALID_CREDENTIALS') {
+        if (isApiError(error) && error.code === ErrorCode.INVALID_CREDENTIALS) {
           form.setError('password', {
             message: '이메일 또는 비밀번호가 올바르지 않습니다.',
           });

@@ -3,6 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { ErrorCode } from '@mono/shared/api';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 import type { LoginDto } from './dto/login.dto';
@@ -45,7 +46,7 @@ export class SessionsService {
 
     if (!user || !isValid) {
       throw new UnauthorizedException({
-        code: 'INVALID_CREDENTIALS',
+        code: ErrorCode.INVALID_CREDENTIALS,
         message: '이메일 또는 비밀번호가 올바르지 않습니다.',
       });
     }
@@ -62,7 +63,7 @@ export class SessionsService {
       });
     } catch {
       throw new UnauthorizedException({
-        code: 'INVALID_REFRESH_TOKEN',
+        code: ErrorCode.INVALID_REFRESH_TOKEN,
         message: '유효하지 않은 리프레시 토큰입니다.',
       });
     }
@@ -71,7 +72,7 @@ export class SessionsService {
     const sessionExists = session !== null;
     if (!sessionExists) {
       throw new UnauthorizedException({
-        code: 'SESSION_NOT_FOUND',
+        code: ErrorCode.SESSION_NOT_FOUND,
         message: '세션이 만료되었습니다. 다시 로그인해주세요.',
       });
     }
@@ -84,7 +85,7 @@ export class SessionsService {
     if (isTokenReused) {
       await this.prisma.session.delete({ where: { userId: payload.sub } });
       throw new UnauthorizedException({
-        code: 'TOKEN_REUSE_DETECTED',
+        code: ErrorCode.TOKEN_REUSE_DETECTED,
         message: '비정상적인 접근이 감지되었습니다. 다시 로그인해주세요.',
       });
     }
