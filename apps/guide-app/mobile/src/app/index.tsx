@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { BackHandler, Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackHandler, Platform, StyleSheet, View } from 'react-native';
 import { WebView, type WebViewNavigation } from 'react-native-webview';
 import { WEB_URL } from '@/constants/webUrl';
 
@@ -28,7 +27,7 @@ export default function WebScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+    <View style={styles.container}>
       <WebView
         ref={webViewRef}
         source={{ uri: WEB_URL }}
@@ -39,7 +38,7 @@ export default function WebScreen() {
         allowsInlineMediaPlayback
         mediaPlaybackRequiresUserAction={false}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
