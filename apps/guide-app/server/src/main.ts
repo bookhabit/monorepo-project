@@ -30,7 +30,9 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: process.env['CORS_ORIGIN'] ?? 'http://localhost:3010',
+    origin: process.env['CORS_ORIGIN']
+      ? process.env['CORS_ORIGIN'].split(',').map((o) => o.trim())
+      : /^http:\/\/(localhost|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+):3010$/,
     credentials: true, // withCredentials 쿠키 전송 허용
   });
 

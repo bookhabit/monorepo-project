@@ -2,7 +2,7 @@ import { createApiClient, ApiError } from '@mono/shared/api';
 import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 
 const { http, privateApi, publicApi } = createApiClient({
-  baseURL: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL ?? '',
   withCredentials: true,                         // httpOnly RT 쿠키 자동 전송
   refreshEndpoint: '/api/v1/sessions/refresh',
   getAccessToken: () => useAuthStore.getState().accessToken,

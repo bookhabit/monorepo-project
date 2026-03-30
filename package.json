@@ -5,6 +5,7 @@
   "workspaces": [
     "apps/*/client",
     "apps/*/server",
+    "apps/*/mobile",
     "packages/*"
   ],
   "scripts": {
