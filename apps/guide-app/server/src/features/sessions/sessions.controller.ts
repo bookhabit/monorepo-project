@@ -65,12 +65,18 @@ export class SessionsController {
       });
     }
 
-    const { accessToken, refreshToken: newRefreshToken } =
-      await this.sessionsService.refresh(refreshToken);
+    try {
+      const { accessToken, refreshToken: newRefreshToken } =
+        await this.sessionsService.refresh(refreshToken);
 
-    res.cookie(RT_COOKIE, newRefreshToken, RT_COOKIE_OPTIONS);
+      res.cookie(RT_COOKIE, newRefreshToken, RT_COOKIE_OPTIONS);
 
-    return { accessToken };
+      return { accessToken };
+    } catch (error) {
+      // 토큰이 있었지만 유효하지 않음 → 브라우저 쿠키도 즉시 삭제
+      res.clearCookie(RT_COOKIE, { ...RT_COOKIE_OPTIONS, maxAge: 0 });
+      throw error;
+    }
   }
 
   /**
