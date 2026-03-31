@@ -1,13 +1,29 @@
-import { IsEnum, IsOptional, IsNumberString } from 'class-validator';
+import { IsEnum, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class QueryLoansDto {
   @IsOptional()
-  @IsEnum(['pending', 'under-review', 'approved', 'rejected', 'cancelled'])
-  status?: 'pending' | 'under-review' | 'approved' | 'rejected' | 'cancelled';
+  @IsEnum(['pending', 'reviewing', 'approved', 'rejected'])
+  status?: 'pending' | 'reviewing' | 'approved' | 'rejected';
 
   @IsOptional()
-  @IsEnum(['low', 'medium', 'high', 'critical'])
-  riskLevel?: 'low' | 'medium' | 'high' | 'critical';
+  @IsEnum(['low', 'medium', 'high'])
+  riskLevel?: 'low' | 'medium' | 'high';
+
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  minAmount?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  maxAmount?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  minCreditScore?: string;
 
   @IsOptional()
   @IsNumberString()
