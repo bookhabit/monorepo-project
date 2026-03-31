@@ -1,13 +1,33 @@
-import { IsEnum, IsOptional, IsNumberString, IsDateString } from 'class-validator';
+import { IsDateString, IsEnum, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class QueryTransactionsDto {
   @IsOptional()
-  @IsEnum(['low', 'medium', 'high'])
-  riskLevel?: 'low' | 'medium' | 'high';
+  @IsEnum(['low', 'medium', 'high', 'critical'])
+  riskLevel?: 'low' | 'medium' | 'high' | 'critical';
 
   @IsOptional()
-  @IsEnum(['normal', 'suspicious', 'blocked', 'cleared'])
-  status?: 'normal' | 'suspicious' | 'blocked' | 'cleared';
+  @IsEnum(['normal', 'suspicious', 'blocked', 'reviewing'])
+  status?: 'normal' | 'suspicious' | 'blocked' | 'reviewing';
+
+  @IsOptional()
+  @IsEnum(['transfer', 'withdrawal', 'deposit', 'payment'])
+  type?: 'transfer' | 'withdrawal' | 'deposit' | 'payment';
+
+  @IsOptional()
+  @IsNumberString()
+  minAmount?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  maxAmount?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  minRiskScore?: string;
+
+  @IsOptional()
+  @IsString()
+  search?: string;
 
   @IsOptional()
   @IsDateString()
