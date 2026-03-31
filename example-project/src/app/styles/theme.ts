@@ -1,0 +1,83 @@
+export const lightTheme = {
+  color: {
+    background: '#ffffff',
+    backgroundSecondary: '#f9fafb',
+    backgroundTertiary: '#f3f4f6',
+    text: '#111827',
+    textSecondary: '#374151',
+    textMuted: '#6b7280',
+    border: '#e5e7eb',
+    borderHover: '#d1d5db',
+    primary: '#3b82f6',
+    primaryHover: '#2563eb',
+    success: '#22c55e',
+    successLight: '#dcfce7',
+    error: '#ef4444',
+    errorLight: '#fee2e2',
+    warning: '#f59e0b',
+    warningLight: '#fef3c7',
+    info: '#3b82f6',
+    infoLight: '#dbeafe',
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
+  },
+  borderRadius: {
+    sm: '4px',
+    md: '8px',
+    lg: '12px',
+    full: '9999px',
+  },
+  shadow: {
+    sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+  },
+} as const;
+
+export const darkTheme = {
+  color: {
+    background: '#111827',
+    backgroundSecondary: '#1f2937',
+    backgroundTertiary: '#374151',
+    text: '#f9fafb',
+    textSecondary: '#e5e7eb',
+    textMuted: '#9ca3af',
+    border: '#374151',
+    borderHover: '#4b5563',
+    primary: '#3b82f6',
+    primaryHover: '#2563eb',
+    success: '#22c55e',
+    successLight: 'rgba(34, 197, 94, 0.1)',
+    error: '#ef4444',
+    errorLight: 'rgba(239, 68, 68, 0.1)',
+    warning: '#f59e0b',
+    warningLight: 'rgba(245, 158, 11, 0.1)',
+    info: '#3b82f6',
+    infoLight: 'rgba(59, 130, 246, 0.1)',
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
+  },
+  borderRadius: {
+    sm: '4px',
+    md: '8px',
+    lg: '12px',
+    full: '9999px',
+  },
+  shadow: {
+    sm: '0 1px 2px 0 rgba(0, 0, 0, 0.3)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.5)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.7)',
+  },
+} as const;
+
+export type Theme = typeof lightTheme;
