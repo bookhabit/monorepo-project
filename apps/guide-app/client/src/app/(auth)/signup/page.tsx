@@ -1,4 +1,9 @@
+import type { Metadata } from 'next';
 import { SignupFormContainer } from '@/features/auth/components/SignupFormContainer';
+
+export const metadata: Metadata = {
+  title: '회원가입',
+};
 
 export default function SignupPage() {
   return (
