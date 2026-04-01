@@ -10,7 +10,8 @@ import {
   Res,
   Sse,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { NotificationPage } from './notification.types';
 import { Response } from 'express';
 import { map, Observable } from 'rxjs';
 import { NotificationService } from './notification.service';
@@ -22,6 +23,7 @@ export class NotificationController {
 
   @Sse('stream')
   @ApiOperation({ summary: '실시간 알림 SSE 스트림 (5~15초 주기)' })
+  @ApiResponse({ status: 200, description: 'SSE 스트림' })
   stream(@Res() res: Response): Observable<MessageEvent> {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('X-Accel-Buffering', 'no');
@@ -34,6 +36,7 @@ export class NotificationController {
   @Get()
   @ApiOperation({ summary: '알림 목록 조회 (커서 기반 페이지네이션, 10개씩)' })
   @ApiQuery({ name: 'cursor', required: false, description: '다음 페이지 커서' })
+  @ApiResponse({ status: 200, description: '알림 목록', type: NotificationPage })
   findPage(@Query('cursor') cursor?: string) {
     return this.notificationService.findPage(cursor ?? null);
   }
@@ -41,6 +44,7 @@ export class NotificationController {
   @Patch(':id/read')
   @HttpCode(200)
   @ApiOperation({ summary: '알림 읽음 처리 (5% 랜덤 실패)' })
+  @ApiResponse({ status: 200, description: '읽음 처리 완료' })
   markAsRead(@Param('id') id: string) {
     return this.notificationService.markAsRead(id);
   }
@@ -48,6 +52,7 @@ export class NotificationController {
   @Patch('read-all')
   @HttpCode(200)
   @ApiOperation({ summary: '전체 알림 읽음 처리 (5% 랜덤 실패)' })
+  @ApiResponse({ status: 200, description: '전체 읽음 처리 완료' })
   markAllAsRead() {
     this.notificationService.markAllAsRead();
     return { message: '전체 읽음 처리되었습니다.' };
@@ -56,6 +61,7 @@ export class NotificationController {
   @Delete(':id')
   @HttpCode(200)
   @ApiOperation({ summary: '알림 삭제 (5% 랜덤 실패)' })
+  @ApiResponse({ status: 200, description: '삭제 완료' })
   remove(@Param('id') id: string) {
     this.notificationService.remove(id);
     return { message: '삭제되었습니다.' };
