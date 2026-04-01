@@ -1,14 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { accountService } from '../services/account.service';
 
-export const accountKeys = {
-  get: () => ['account'] as const,
-};
+export const accountQueryOptions = queryOptions({
+  queryKey: ['account'] as const,
+  queryFn: accountService.getAccount,
+});
 
 export function useAccountQuery() {
-  const query = useQuery({
-    queryKey: accountKeys.get(),
-    queryFn: accountService.getAccount,
-  });
-  return query;
+  return useSuspenseQuery(accountQueryOptions);
 }
