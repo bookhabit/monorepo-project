@@ -1,4 +1,9 @@
+import type { Metadata } from 'next';
 import { LoginFormContainer } from '@/features/auth/components/LoginFormContainer';
+
+export const metadata: Metadata = {
+  title: '로그인',
+};
 
 export default function LoginPage() {
   return (

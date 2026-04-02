@@ -10,13 +10,13 @@ import {
   Res,
   Sse,
 } from '@nestjs/common';
-import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { map, Observable } from 'rxjs';
 import { BatchActionDto } from '../dto/batch-action.dto';
 import { QueryTransactionsDto } from '../dto/query-transactions.dto';
 import { TransactionService } from './transaction.service';
-import { UserRole } from './transaction.types';
+import { Transaction, TransactionPage, UserRole } from './transaction.types';
 
 const ROLE_HEADER = 'x-user-role';
 
@@ -33,6 +33,7 @@ export class TransactionController {
 
   @Sse('stream')
   @ApiOperation({ summary: '실시간 거래 SSE 스트림 (1~3초 주기)' })
+  @ApiResponse({ status: 200, description: '실시간 거래 SSE 스트림', type: Transaction })
   stream(@Res() res: Response): Observable<MessageEvent> {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('X-Accel-Buffering', 'no');
@@ -43,18 +44,23 @@ export class TransactionController {
 
   @Get()
   @ApiOperation({ summary: '거래 목록 조회 (서버사이드 필터 + 페이지네이션)' })
+  @ApiResponse({ status: 200, description: '거래 목록 페이지', type: TransactionPage })
   findPage(@Query() dto: QueryTransactionsDto) {
     return this.transactionService.findPage(dto);
   }
 
   @Get(':id')
   @ApiOperation({ summary: '거래 단건 조회' })
+  @ApiResponse({ status: 200, description: '거래 단건', type: Transaction })
+  @ApiResponse({ status: 404, description: '거래를 찾을 수 없음' })
   findOne(@Param('id') id: string) {
     return this.transactionService.findOne(id);
   }
 
   @Post('batch-block')
   @ApiOperation({ summary: '일괄 차단 (security_manager 이상)' })
+  @ApiResponse({ status: 201, description: '일괄 차단 완료 메시지', schema: { properties: { message: { type: 'string' } } } })
+  @ApiResponse({ status: 403, description: '권한 없음' })
   batchBlock(
     @Body() dto: BatchActionDto,
     @Headers(ROLE_HEADER) role: string | undefined,
@@ -65,6 +71,8 @@ export class TransactionController {
 
   @Post('batch-unblock')
   @ApiOperation({ summary: '일괄 차단 해제 (security_manager 이상)' })
+  @ApiResponse({ status: 201, description: '일괄 차단 해제 완료 메시지', schema: { properties: { message: { type: 'string' } } } })
+  @ApiResponse({ status: 403, description: '권한 없음' })
   batchUnblock(
     @Body() dto: BatchActionDto,
     @Headers(ROLE_HEADER) role: string | undefined,
@@ -77,7 +85,8 @@ export class TransactionController {
 // ── Users ────────────────────────────────────────────────────────────────────
 
 import { Controller as C, Get as G, Param as P } from '@nestjs/common';
-import { ApiTags as AT, ApiOperation as AO } from '@nestjs/swagger';
+import { ApiTags as AT, ApiOperation as AO, ApiResponse as AR } from '@nestjs/swagger';
+import { UserRiskProfile } from './transaction.types';
 
 @AT('users')
 @C('users')
@@ -86,6 +95,7 @@ export class UserController {
 
   @G(':userId/risk-profile')
   @AO({ summary: '유저 위험도 프로파일 (24h 타임라인 포함)' })
+  @AR({ status: 200, description: '유저 위험도 프로파일', type: UserRiskProfile })
   getRiskProfile(@P('userId') userId: string) {
     return this.transactionService.getUserRiskProfile(userId);
   }

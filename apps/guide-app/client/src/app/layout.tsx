@@ -8,8 +8,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Guide App — 축구 팀 매니저',
-  description: '@mono 공통 모듈 올바른 사용법을 시연하는 가이드 앱',
+  title: {
+    template: '%s | 풋살 가이드앱',
+    default: '풋살 가이드앱',
+  },
+  description: '팀을 만들고 경기를 찾아보세요. @mono 공통 모듈 활용 가이드 앱',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
