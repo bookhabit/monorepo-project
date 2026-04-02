@@ -21,6 +21,7 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
   const price = watch('price') || 0;
   const quantity = watch('quantity') || 0;
   const totalAmount = price * quantity;
+  const isFormInvalid = price <= 0 || quantity <= 0;
 
   console.log('주문 form 값:', { side, price, quantity });
 
@@ -169,7 +170,7 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
         {/* 제출 버튼 */}
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || isFormInvalid}
           style={{
             width: '100%',
             padding: '16px',
@@ -178,7 +179,7 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
             backgroundColor: isPending ? '#4b5563' : '#4b5563', // 원본 이미지 색상 기준
             color: '#fff',
             fontWeight: 'bold',
-            cursor: 'pointer',
+            cursor: isPending || isFormInvalid ? 'not-allowed' : 'pointer',
             fontSize: '16px',
           }}
         >
