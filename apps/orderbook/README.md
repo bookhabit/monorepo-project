@@ -14,11 +14,11 @@
 
 ## 참고 자료
 
-| 자료 | 설명 |
-|------|------|
-| 피그마 디자인 | 호가창, 주문 패널, 계좌 정보 레이아웃 참고 |
+| 자료               | 설명                                           |
+| ------------------ | ---------------------------------------------- |
+| 피그마 디자인      | 호가창, 주문 패널, 계좌 정보 레이아웃 참고     |
 | `example-project/` | 기능이 완성된 레퍼런스 구현체 (구조·UX 참고용) |
-| API 명세 | 아래 **API 명세** 섹션 참고 |
+| API 명세           | 아래 **API 명세** 섹션 참고                    |
 
 > `example-project`의 코드를 그대로 복사하지 말고, 설계 의도와 UX 흐름을 파악하는 용도로만 참고하세요.
 
@@ -26,15 +26,15 @@
 
 ## 기술 스택
 
-| 영역 | 기술 |
-|------|------|
-| 프레임워크 | React 19 + TypeScript |
-| 빌드 | Vite |
-| 스타일링 | Emotion (styled) |
-| 서버 상태 | TanStack React Query v5 |
-| 클라이언트 상태 | Jotai |
-| 폼 검증 | React Hook Form + Zod |
-| 실시간 통신 | socket.io-client |
+| 영역            | 기술                    |
+| --------------- | ----------------------- |
+| 프레임워크      | React 19 + TypeScript   |
+| 빌드            | Vite                    |
+| 스타일링        | Emotion (styled)        |
+| 서버 상태       | TanStack React Query v5 |
+| 클라이언트 상태 | Jotai                   |
+| 폼 검증         | React Hook Form + Zod   |
+| 실시간 통신     | socket.io-client        |
 
 ---
 
@@ -58,7 +58,7 @@ interface OrderBookLevel {
 }
 
 interface OrderBookData {
-  symbol: string;      // 'KOSPI200'
+  symbol: string; // 'KOSPI200'
   timestamp: number;
   bids: OrderBookLevel[]; // 매수 호가 10단계 (높은 가격순)
   asks: OrderBookLevel[]; // 매도 호가 10단계 (낮은 가격순)
@@ -72,7 +72,7 @@ interface OrderBookData {
 ```ts
 // Response
 {
-  cash: number;         // 보유 현금 (초기값: 10,000,000)
+  cash: number; // 보유 현금 (초기값: 10,000,000)
   stockQuantity: number; // 보유 주식 수량 (초기값: 0)
 }
 ```
@@ -117,6 +117,12 @@ interface OrderBookData {
 ### 1단계 — 요구사항 분석
 
 - 피그마 디자인을 보며 필요한 컴포넌트 목록 도출
+
+헤더 - 제목,코스피,시간
+테이블 - 가격,잔량,총액
+계좌정보 공통 - 보유현금,보유주식,총평가액
+주문 - 버튼, 인풋, 주문총액-매수가능
+
 - API 명세를 읽고 데이터 흐름 파악
 - 렌더링 성능 병목이 생길 수 있는 지점 미리 예측
 
@@ -148,12 +154,12 @@ interface OrderBookData {
 
 `apps/orderbook/client/README.md` 에 아래 내용을 작성합니다.
 
-| 항목 | 내용 |
-|------|------|
-| Architecture | 상태 관리 전략 (서버 상태 vs UI 상태 분리 이유) |
+| 항목                     | 내용                                                        |
+| ------------------------ | ----------------------------------------------------------- |
+| Architecture             | 상태 관리 전략 (서버 상태 vs UI 상태 분리 이유)             |
 | Performance Optimization | 500ms 주기 업데이트에서 렌더링 성능을 잡기 위해 시도한 방법 |
-| Troubleshooting | 구현 중 마주친 기술적 한계와 해결 과정 |
-| Self-Evaluation | 시간이 더 있었다면 보완하고 싶은 점 |
+| Troubleshooting          | 구현 중 마주친 기술적 한계와 해결 과정                      |
+| Self-Evaluation          | 시간이 더 있었다면 보완하고 싶은 점                         |
 
 ---
 
