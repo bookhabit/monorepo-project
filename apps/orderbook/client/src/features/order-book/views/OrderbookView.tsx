@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOrderSelectionStore } from '@/shared/store/useOrderSelectionStore';
 
 /* 데이터만 받아서 UI만 꾸리는 컴포넌트 */
 
@@ -18,6 +19,7 @@ interface OrderbookViewProps {
 }
 
 export default function OrderbookView({ data }: OrderbookViewProps) {
+  const setSelection = useOrderSelectionStore((s) => s.setSelection);
   // 1. 데이터 객체가 아예 없거나
   // 2. 매수(bids)와 매도(asks) 배열이 모두 비어있는 경우를 체크
   const hasNoData = !data || (data.bids.length === 0 && data.asks.length === 0);
@@ -48,7 +50,8 @@ export default function OrderbookView({ data }: OrderbookViewProps) {
         {data.asks.map((ask, i) => (
           <div
             key={`ask-${i}`}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', color: 'red' }}
+            onClick={() => setSelection(ask.price, 'buy')}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', color: 'red', cursor: 'pointer' }}
           >
             <span>{ask.price.toLocaleString()}</span>
             <span>{ask.quantity.toLocaleString()}</span>
@@ -64,7 +67,8 @@ export default function OrderbookView({ data }: OrderbookViewProps) {
         {data.bids.map((bid, i) => (
           <div
             key={`bid-${i}`}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', color: 'blue' }}
+            onClick={() => setSelection(bid.price, 'sell')}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', color: 'blue', cursor: 'pointer' }}
           >
             <span>{bid.price.toLocaleString()}</span>
             <span>{bid.quantity.toLocaleString()}</span>

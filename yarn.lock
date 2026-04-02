@@ -3401,6 +3401,7 @@ __metadata:
     typescript: "npm:^5.8.3"
     vite: "npm:^6.3.4"
     zod: "npm:^4.3.6"
+    zustand: "npm:^5.0.12"
   languageName: unknown
   linkType: soft
 
@@ -16757,7 +16758,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^5.0.0, zustand@npm:^5.0.3":
+"zustand@npm:^5.0.0, zustand@npm:^5.0.12, zustand@npm:^5.0.3":
   version: 5.0.12
   resolution: "zustand@npm:5.0.12"
   peerDependencies:

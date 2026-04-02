@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CreateOrderRequest, CreateOrderRequestSchema } from '../../schemas/order.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useOrderMutation } from '../api/useOrderMutation';
+import { useOrderSelectionStore } from '@/shared/store/useOrderSelectionStore';
 
 export function useOrderForm() {
   // 현재 : 사용자의 form 입력으로 주문가격 input
@@ -12,6 +14,13 @@ export function useOrderForm() {
   });
 
   const { mutate, isPending } = useOrderMutation();
+
+  const { price, side } = useOrderSelectionStore();
+
+  useEffect(() => {
+    if (price !== null) form.setValue('price', price);
+    if (side !== null) form.setValue('side', side);
+  }, [price, side]);
 
   const handleSubmit = form.handleSubmit((payload) => {
     mutate(payload);
