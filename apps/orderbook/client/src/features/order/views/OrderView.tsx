@@ -1,14 +1,25 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { CreateOrderRequest } from '../schemas/order.schema';
+import { Account } from '@/features/account/schemas/account.schema';
 
 interface OrderViewProps {
   form: UseFormReturn<CreateOrderRequest>;
   isPending: boolean;
   handleSubmit: () => void;
+  account: Account;
+  isInsufficientFunds: boolean;
+  isInsufficientStock: boolean;
 }
 
-export default function OrderView({ form, isPending, handleSubmit }: OrderViewProps) {
+export default function OrderView({
+  form,
+  isPending,
+  handleSubmit,
+  account,
+  isInsufficientFunds,
+  isInsufficientStock,
+}: OrderViewProps) {
   const {
     register,
     watch,
@@ -16,12 +27,20 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
     formState: { errors },
   } = form;
 
-  // 실시간 값 감시 (총액 계산용)
   const side = watch('side');
   const price = watch('price') || 0;
   const quantity = watch('quantity') || 0;
   const totalAmount = price * quantity;
+
   const isFormInvalid = price <= 0 || quantity <= 0;
+  const isSubmitDisabled = isPending || isFormInvalid || isInsufficientFunds || isInsufficientStock;
+  const isMaxQuantityDisabled = side === 'buy' && price <= 0;
+
+  const handleMaxQuantity = () => {
+    const maxQuantity =
+      side === 'buy' ? Math.floor(account.cash / price) : account.stockQuantity;
+    setValue('quantity', maxQuantity);
+  };
 
   console.log('주문 form 값:', { side, price, quantity });
 
@@ -112,14 +131,16 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
             <label style={{ fontSize: '12px', color: '#9ca3af' }}>주문 수량</label>
             <button
               type="button"
+              onClick={handleMaxQuantity}
+              disabled={isMaxQuantityDisabled}
               style={{
                 fontSize: '12px',
-                backgroundColor: '#3b82f6',
+                backgroundColor: isMaxQuantityDisabled ? '#4b5563' : '#3b82f6',
                 color: '#fff',
                 border: 'none',
                 padding: '2px 8px',
                 borderRadius: '4px',
-                cursor: 'pointer',
+                cursor: isMaxQuantityDisabled ? 'not-allowed' : 'pointer',
               }}
             >
               최대
@@ -145,7 +166,7 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
             backgroundColor: '#242935',
             padding: '16px',
             borderRadius: '4px',
-            marginBottom: '20px',
+            marginBottom: '12px',
           }}
         >
           <div
@@ -163,23 +184,41 @@ export default function OrderView({ form, isPending, handleSubmit }: OrderViewPr
             <span style={{ color: '#9ca3af' }}>
               👛 {side === 'buy' ? '매수 가능' : '매도 가능'}
             </span>
-            <span>0{side === 'buy' ? '원' : '주'}</span>
+            <span>
+              {side === 'buy'
+                ? `${account.cash.toLocaleString()}원`
+                : `${account.stockQuantity.toLocaleString()}주`}
+            </span>
           </div>
         </div>
+
+        {/* 잔고 부족 에러 메시지 */}
+        {isInsufficientFunds && (
+          <p style={{ color: '#ef4444', fontSize: '12px', marginBottom: '12px' }}>
+            보유 현금이 부족합니다. (주문 총액: {totalAmount.toLocaleString()}원 / 보유:{' '}
+            {account.cash.toLocaleString()}원)
+          </p>
+        )}
+        {isInsufficientStock && (
+          <p style={{ color: '#ef4444', fontSize: '12px', marginBottom: '12px' }}>
+            보유 주식 수량이 부족합니다. (주문 수량: {quantity}주 / 보유:{' '}
+            {account.stockQuantity}주)
+          </p>
+        )}
 
         {/* 제출 버튼 */}
         <button
           type="submit"
-          disabled={isPending || isFormInvalid}
+          disabled={isSubmitDisabled}
           style={{
             width: '100%',
             padding: '16px',
             borderRadius: '8px',
             border: 'none',
-            backgroundColor: isPending ? '#4b5563' : '#4b5563', // 원본 이미지 색상 기준
-            color: '#fff',
+            backgroundColor: isSubmitDisabled ? '#374151' : '#4b5563',
+            color: isSubmitDisabled ? '#6b7280' : '#fff',
             fontWeight: 'bold',
-            cursor: isPending || isFormInvalid ? 'not-allowed' : 'pointer',
+            cursor: isSubmitDisabled ? 'not-allowed' : 'pointer',
             fontSize: '16px',
           }}
         >

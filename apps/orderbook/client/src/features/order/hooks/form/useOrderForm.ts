@@ -4,27 +4,46 @@ import { CreateOrderRequest, CreateOrderRequestSchema } from '../../schemas/orde
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useOrderMutation } from '../api/useOrderMutation';
 import { useOrderSelectionStore } from '@/shared/store/useOrderSelectionStore';
+import { useAccountQuery } from '@/features/account/hooks/useAccountQuery';
+import { useToast } from '@mono/ui';
 
 export function useOrderForm() {
-  // 현재 : 사용자의 form 입력으로 주문가격 input
-  // TODO : 전역상태로 관리되는 사용자의 호가창 주문가격 클릭 시 해당 가격이 주문가격 input에 반영되도록 구현
   const form = useForm<CreateOrderRequest>({
     resolver: zodResolver(CreateOrderRequestSchema),
     defaultValues: { symbol: 'KOSPI200', side: 'buy', price: 0, quantity: 0, type: 'limit' },
   });
 
   const { mutate, isPending } = useOrderMutation();
+  const { data: account } = useAccountQuery();
+  const { toast } = useToast();
 
-  const { price, side } = useOrderSelectionStore();
+  const { price: selectedPrice, side: selectedSide } = useOrderSelectionStore();
 
   useEffect(() => {
-    if (price !== null) form.setValue('price', price);
-    if (side !== null) form.setValue('side', side);
-  }, [price, side]);
+    if (selectedPrice !== null) form.setValue('price', selectedPrice);
+    if (selectedSide !== null) form.setValue('side', selectedSide);
+  }, [selectedPrice, selectedSide]);
+
+  const watchedPrice = form.watch('price') ?? 0;
+  const watchedQuantity = form.watch('quantity') ?? 0;
+  const watchedSide = form.watch('side');
+
+  const isInsufficientFunds =
+    watchedSide === 'buy' && watchedPrice * watchedQuantity > account.cash;
+  const isInsufficientStock =
+    watchedSide === 'sell' && watchedQuantity > account.stockQuantity;
 
   const handleSubmit = form.handleSubmit((payload) => {
+    if (isInsufficientFunds) {
+      toast.error('보유 현금이 부족합니다.');
+      return;
+    }
+    if (isInsufficientStock) {
+      toast.error('보유 주식 수량이 부족합니다.');
+      return;
+    }
     mutate(payload);
   });
 
-  return { form, isPending, handleSubmit };
+  return { form, isPending, handleSubmit, account, isInsufficientFunds, isInsufficientStock };
 }
