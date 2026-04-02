@@ -42,7 +42,9 @@ export function useOrderForm() {
       toast.error('보유 주식 수량이 부족합니다.');
       return;
     }
-    mutate(payload);
+    mutate(payload, {
+      onSuccess: () => form.reset(),
+    });
   });
 
   return { form, isPending, handleSubmit, account, isInsufficientFunds, isInsufficientStock };
