@@ -45,11 +45,20 @@ export const createPublicClient = (baseURL: string, timeout = 10000) => {
   return {
     instance,
     http: {
-      get: async <T>(url: string, config?: AxiosRequestConfig, schema?: z.ZodSchema): Promise<T> => {
+      get: async <T>(
+        url: string,
+        config?: AxiosRequestConfig,
+        schema?: z.ZodSchema,
+      ): Promise<T> => {
         const res = await instance.get<T>(url, config);
         return handleResponse<T>(res, schema);
       },
-      post: async <T>(url: string, data?: object, config?: AxiosRequestConfig, schema?: z.ZodSchema): Promise<T> => {
+      post: async <T>(
+        url: string,
+        data?: object,
+        config?: AxiosRequestConfig,
+        schema?: z.ZodSchema,
+      ): Promise<T> => {
         const res = await instance.post<T>(url, data, config);
         return handleResponse<T>(res, schema);
       },

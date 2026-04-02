@@ -1,8 +1,14 @@
 import OrderbookView from '@/features/order-book/views/OrderbookView';
+import { useOrderbook } from '../hooks/useOrderbook';
+import LoadingFallback from '@/shared/boundary/LoadingFallback';
+import ErrorFallback from '@/shared/boundary/ErrorFallback';
 
 export default function OrderBookContainer() {
-  // 소켓 연결 및 데이터 수신 로직 구현
-  // ui 컴포넌트에는 데이터만 전달
+  const { data, isLoading, error, refetch } = useOrderbook();
+  // console.log('OrderBookContainer 렌더링 - 데이터:', data, '로딩 상태:', isLoading, '에러:', error);
 
-  return <OrderbookView />;
+  if (isLoading) return <LoadingFallback />;
+  if (error) return <ErrorFallback errorMessage={error} onReset={refetch} />;
+
+  return <OrderbookView data={data} />;
 }

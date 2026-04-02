@@ -12,9 +12,7 @@ export default function AsyncBoundary({ children }: Props) {
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <ErrorBoundary onReset={reset}>
-          <Suspense fallback={<LoadingFallback />}>
-            {children}
-          </Suspense>
+          <Suspense fallback={<LoadingFallback />}>{children}</Suspense>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>

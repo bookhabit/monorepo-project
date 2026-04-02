@@ -9,9 +9,8 @@ export default function Page() {
   return (
     <div>
       {/*  호가창 */}
-      <AsyncBoundary>
-        <OrderBookContainer />
-      </AsyncBoundary>
+      <OrderBookContainer />
+
       {/*  계좌 정보 표시 */}
       <AsyncBoundary>
         <AccountContainer />
