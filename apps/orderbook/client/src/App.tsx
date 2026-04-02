@@ -1,5 +1,10 @@
 import Page from './app/Page';
+import { ToastProvider } from '@mono/ui';
 
 export default function App() {
-  return <Page />;
+  return (
+    <ToastProvider>
+      <Page />
+    </ToastProvider>
+  );
 }

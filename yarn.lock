@@ -3382,6 +3382,7 @@ __metadata:
     "@emotion/babel-plugin": "npm:^11.13.5"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
+    "@hookform/resolvers": "npm:^5.2.2"
     "@mono/shared": "npm:*"
     "@mono/tsconfig": "npm:*"
     "@mono/ui": "npm:*"
@@ -3399,7 +3400,7 @@ __metadata:
     socket.io-client: "npm:^4.8.3"
     typescript: "npm:^5.8.3"
     vite: "npm:^6.3.4"
-    zod: "npm:^3.24.2"
+    zod: "npm:^4.3.6"
   languageName: unknown
   linkType: soft
 
